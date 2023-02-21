@@ -8,11 +8,23 @@ import 'components/new_arrival_products.dart';
 import 'components/popular_products.dart';
 import 'components/search_form.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
     HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+int _selectedIndex = 0;
+class _HomeScreenState extends State<HomeScreen> {
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
+    @override
   final scaffoldKey= GlobalKey<ScaffoldState>();
+
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -84,9 +96,10 @@ class HomeScreen extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: ""),
           BottomNavigationBarItem(icon: Icon(Icons.notifications), label: ""),
         ],
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
 
-         // onTap: _onItemTapped,
+        // onTap: _onItemTapped,
       ),
       drawer: Drawer(
 
@@ -130,8 +143,8 @@ class HomeScreen extends StatelessWidget {
             ),
 
             ListTile(
-              leading: const Icon(Icons.video_label),
-              title: const Text(' Saved Videos '),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favourite'),
               onTap: () {
                 Navigator.pop(context);
               },
