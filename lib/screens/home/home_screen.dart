@@ -2,23 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stylish/constants.dart';
 
+import '../loginscreen.dart';
 import 'components/categories.dart';
 import 'components/new_arrival_products.dart';
 import 'components/popular_products.dart';
 import 'components/search_form.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+    HomeScreen({Key? key}) : super(key: key);
 
   @override
+  final scaffoldKey= GlobalKey<ScaffoldState>();
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
 
-          },
+
           icon: SvgPicture.asset("assets/icons/menu.svg"),
+          onPressed: () {
+            // Scaffold.of(context).openDrawer();
+            scaffoldKey.currentState?.openDrawer();
+          },
+          // tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
         ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,8 +74,8 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFFF67952),
-        selectedItemColor: Colors.white,
+        backgroundColor: Colors.white,
+        selectedItemColor: Color(0xFFF67952) ,
         unselectedItemColor: Color(0xff4d4f52),
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -80,6 +87,70 @@ class HomeScreen extends StatelessWidget {
         currentIndex: 0,
 
          // onTap: _onItemTapped,
+      ),
+      drawer: Drawer(
+
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFFF67952) ,
+              ), //BoxDecoration
+              child: UserAccountsDrawerHeader(
+                decoration: BoxDecoration(color: Color(0xFFF67952) ),
+                accountName: Text(
+                  "Heet Ratanpara",
+                  style: TextStyle(fontSize: 18),
+                ),
+                accountEmail: Text("heet1212@gmail.com"),
+                currentAccountPictureSize: Size.square(50),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 252, 252, 252),
+                  child: Text(
+                    "HR",
+                    style: TextStyle(fontSize: 30.0, color: Colors.blue),
+                  ), //Text
+                ), //circleAvatar
+              ), //UserAccountDrawerHeader
+            ), //DrawerHeader
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text(' My Profile '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.shop),
+              title: const Text('Order'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.video_label),
+              title: const Text(' Saved Videos '),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('LogOut'),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    )
+                );
+              },
+            ),
+          ],
+        )
       ),
     );
   }
